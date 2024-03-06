@@ -162,13 +162,13 @@
 
     if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
         self.keepSessionOpen = YES;          // do not close session after sending command
-        if (self.connectedTagBase.type == NFCTagTypeISO15693) {
+        /*if (self.connectedTagBase.type == NFCTagTypeISO15693) {
             id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)self.connectedTagBase;
             RequestFlag flags = @(RequestFlagHighDataRate);
             NSInteger customCommandCode = 0xAA;
 
             [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
-        }
+        }*/
     }
 }
 
