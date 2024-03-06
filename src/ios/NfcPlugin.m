@@ -154,7 +154,9 @@
     self.shouldUseTagReaderSession = YES;
     BOOL reusingSession = YES;
     
-    
+    NSArray<NSNumber *> *data = [command argumentAtIndex:0];
+                              
+
 }
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
