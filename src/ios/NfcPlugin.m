@@ -158,18 +158,7 @@
                               
     NSData *customRequestParameters = uint8ArrayToNSData(data);     
 
-    sessionCallbackId = [command.callbackId copy];
-
-    if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
-        self.keepSessionOpen = YES;          // do not close session after sending command
-        if (self.connectedTagBase.type == NFCTagTypeISO15693) {
-            //id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)self.connectedTagBase;
-            //RequestFlag flags = @(RequestFlagHighDataRate);
-            //NSInteger customCommandCode = 0xAA;
-
-            //[self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
-        }
-    }
+    
 }
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
@@ -466,9 +455,7 @@
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send custom command failed."];
                 } else {
-                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
-                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
-                    sessionCallbackId = NULL;              
+                             
                     [self closeSession:session];    
                 }
     }];
