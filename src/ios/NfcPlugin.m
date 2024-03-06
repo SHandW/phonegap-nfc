@@ -466,7 +466,6 @@
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send custom command failed."];
                 } else {
-                    callback(resp);   
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;              
