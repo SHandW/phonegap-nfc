@@ -11,6 +11,7 @@
     NSString* channelCallbackId;
     id<NFCNDEFTag> connectedTag API_AVAILABLE(ios(13.0));
     NFCNDEFStatus connectedTagStatus API_AVAILABLE(ios(13.0));
+    id<NFCTag> connectedTagBase API_AVAILABLE(ios(13.0));
 }
 @property (nonatomic, assign) BOOL writeMode;
 @property (nonatomic, assign) BOOL shouldUseTagReaderSession;
@@ -20,6 +21,7 @@
 @property (nonatomic, assign) BOOL keepSessionOpen;
 @property (strong, nonatomic) NFCReaderSession *nfcSession API_AVAILABLE(ios(11.0));
 @property (strong, nonatomic) NFCNDEFMessage *messageToWrite API_AVAILABLE(ios(11.0));
+
 @end
 
 @implementation NfcPlugin
@@ -88,6 +90,29 @@
     [self startScanSession:command];
 }
 
+- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
+    NSLog(@"transceive");
+    
+    self.shouldUseTagReaderSession = YES;
+    BOOL reusingSession = YES;
+    
+    NSArray<NSNumber *> *data = [command argumentAtIndex:0];
+                              
+    NSData *customRequestParameters = uint8ArrayToNSData(data);      
+    
+
+    if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
+        self.keepSessionOpen = YES;          // do not close session after sending command
+        if (self.connectedTagBase.type == NFCTagTypeISO15693) {
+            id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)self.connectedTagBase;
+            id<NFCISO15693RequestFlag> flags = NFCISO15693RequestFlag.NFCISO15693RequestFlagHighDataRate;
+            NSInteger customCommandCode = 0xAA;
+
+            self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters callback:(void (^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
+        }
+    }
+}
+
 - (void)writeTag:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
     NSLog(@"writeTag");
     
@@ -152,6 +177,7 @@
         [self.nfcSession invalidateSession];
     }
     connectedTag = NULL;
+    connectedTagBase = NULL;
     connectedTagStatus = NFCNDEFStatusNotSupported;
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -279,6 +305,10 @@
             NSLog(@"%@", error);
             [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
             return;
+        }
+
+        if (self.keepSessionOpen) {
+            self->connectedTagBase = tag;
         }
 
         [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
@@ -421,6 +451,22 @@
     }
 }
 
+#pragma mark - ISO 15693 Tag functions
+- (void)customCommandISO15:(NFCReaderSession * _Nonnull)session tag:(id<NFCISO15693Tag>)tag flags:(id<NFCISO15693RequestFlag>)flags code:(NSInteger)code param:(NSData *)param callback:(void (^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
+    [tag customCommandWithRequestFlag:flags
+            customCommandCode: code
+            customRequestParameters: param
+            completionHandler:^(NSData * _Nullable resp, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                    [self closeSession:session withError:@"Send custom command failed."];
+                } else {
+                    callback(resp);
+                    [self closeSession:session];    
+                }
+    }];
+}
+
 #pragma mark - Tag Reader Helper Functions
 
 // Gets the tag meta data - type and uid
@@ -492,6 +538,7 @@
     // kill the callback so the Cordova doesn't get "Session invalidated by user"
     sessionCallbackId = NULL;
     connectedTag = NULL;
+    connectedTagBase = NULL;
     connectedTagStatus = NFCNDEFStatusNotSupported;
     [session invalidateSession];
 }
@@ -502,6 +549,7 @@
     // kill the callback so Cordova doesn't get "Session invalidated by user"
     sessionCallbackId = NULL;
     connectedTag = NULL;
+    connectedTagBase = NULL;
     connectedTagStatus = NFCNDEFStatusNotSupported;
     
     if (@available(iOS 13.0, *)) {
