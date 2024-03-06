@@ -90,29 +90,6 @@
     [self startScanSession:command];
 }
 
-- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
-    NSLog(@"transceive");
-    
-    self.shouldUseTagReaderSession = YES;
-    BOOL reusingSession = YES;
-    
-    /*NSArray<NSNumber *> *data = [command argumentAtIndex:0];
-                              
-    NSData *customRequestParameters = uint8ArrayToNSData(data);      
-    
-
-    if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
-        self.keepSessionOpen = YES;          // do not close session after sending command
-        if (self.connectedTagBase.type == NFCTagTypeISO15693) {
-            id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)self.connectedTagBase;
-            NFCISO15693RequestFlag flags = @(NFCISO15693RequestFlagHighDataRate);
-            NSInteger customCommandCode = 0xAA;
-
-            self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters callback:(void (^)(NSData *result))callback API_AVAILABLE(ios(13.0))
-        }
-    }*/
-}
-
 - (void)writeTag:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
     NSLog(@"writeTag");
     
@@ -452,7 +429,7 @@
 }
 
 #pragma mark - ISO 15693 Tag functions
-- (void)customCommandISO15:(NFCReaderSession * _Nonnull)session tag:(id<NFCISO15693Tag>)tag flags:(NSNumber)flags code:(NSInteger)code param:(NSData *)param callback:(void (^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
+/*- (void)customCommandISO15:(NFCReaderSession * _Nonnull)session tag:(id<NFCISO15693Tag>)tag flags:(NSNumber)flags code:(NSInteger)code param:(NSData *)param callback:(void (^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
     [tag customCommandWithRequestFlag:flags
             customCommandCode: code
             customRequestParameters: param
@@ -465,7 +442,7 @@
                     [self closeSession:session];    
                 }
     }];
-}
+}*/
 
 #pragma mark - Tag Reader Helper Functions
 
