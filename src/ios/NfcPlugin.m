@@ -156,6 +156,9 @@
     
     NSArray<NSNumber *> *data = [command argumentAtIndex:0];
                               
+    NSData *customRequestParameters = uint8ArrayToNSData(data);     
+
+    self.sessionCallbackId = [command.callbackId copy];
 
 }
 
