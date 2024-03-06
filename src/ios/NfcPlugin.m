@@ -167,7 +167,7 @@
             RequestFlag flags = @(RequestFlagHighDataRate);
             NSInteger customCommandCode = 0xAA;
 
-            //[self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
+            [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
         }
     }
 }
