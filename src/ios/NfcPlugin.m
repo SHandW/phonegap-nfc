@@ -430,7 +430,7 @@
 
 #pragma mark - ISO 15693 Tag functions
 - (void)customCommandISO15:(NFCReaderSession * _Nonnull)session 
-                        flags:(NSInteger)flags 
+                        flags:(RequestFlag)flags 
                         code:(NSInteger)code 
                         param:(NSData *)param API_AVAILABLE(ios(13.0)){
     
