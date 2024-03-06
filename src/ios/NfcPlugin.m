@@ -148,6 +148,14 @@
     }
 }
 
+- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
+    NSLog(@"transceive");
+    
+    self.shouldUseTagReaderSession = YES;
+    BOOL reusingSession = YES;
+    
+    
+}
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
     NSLog(@"cancelScan");
