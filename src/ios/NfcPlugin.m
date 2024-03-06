@@ -429,7 +429,8 @@
 }
 
 #pragma mark - ISO 15693 Tag functions
-- (void)customCommandISO:(NFCReaderSession * _Nonnull)session API_AVAILABLE(ios(13.0)){
+- (void)customCommandISO15:(NFCReaderSession * _Nonnull)session 
+                        param:(NSData *)param API_AVAILABLE(ios(13.0)){
     
 }
 
