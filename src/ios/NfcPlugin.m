@@ -148,16 +148,6 @@
     }
 }
 
-- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
-    NSLog(@"transceive");
-    
-    self.shouldUseTagReaderSession = YES;
-    BOOL reusingSession = YES;
-    
-    NSArray<NSNumber *> data = [command argumentAtIndex:0];
-                              
-    NSData *customRequestParameters = uint8ArrayToNSData(data);   
-}
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
     NSLog(@"cancelScan");
@@ -452,7 +442,10 @@
                 if (error) {
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send custom command failed."];
-                } else {                             
+                } else {
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
+                    sessionCallbackId = NULL;              
                     [self closeSession:session];    
                 }
     }];
