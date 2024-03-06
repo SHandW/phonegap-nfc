@@ -148,6 +148,17 @@
     }
 }
 
+- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
+    NSLog(@"transceive");
+    
+    self.shouldUseTagReaderSession = YES;
+    BOOL reusingSession = YES;
+    
+    NSArray<NSNumber *> *data = [command argumentAtIndex:0];
+                              
+    NSData *customRequestParameters = uint8ArrayToNSData(data);   
+}
+
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
     NSLog(@"cancelScan");
     if (self.nfcSession) {
