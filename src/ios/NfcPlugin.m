@@ -430,10 +430,23 @@
 
 #pragma mark - ISO 15693 Tag functions
 - (void)customCommandISO15:(NFCReaderSession * _Nonnull)session 
+                        tag:(id<NFCISO15693Tag>)tag 
                         flags:(RequestFlag)flags 
                         code:(NSInteger)code 
-                        param:(NSData *)param API_AVAILABLE(ios(13.0)){
-    
+                        param:(NSData *)param 
+                        callback:(void(^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
+    /*[tag customCommandWithRequestFlag:flags
+            customCommandCode: code
+            customRequestParameters: param
+            completionHandler:^(NSData * _Nullable resp, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                    [self closeSession:session withError:@"Send custom command failed."];
+                } else {
+                    callback(resp);
+                    [self closeSession:session];    
+                }
+    }];*/
 }
 
 #pragma mark - Tag Reader Helper Functions
