@@ -164,8 +164,8 @@
         self.keepSessionOpen = YES;          // do not close session after sending command
         if (connectedTagBase.type == NFCTagTypeISO15693) {
             id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)connectedTagBase;
-            //RequestFlag flags = @(RequestFlagHighDataRate);
-            //NSInteger customCommandCode = 0xAA;
+            RequestFlag flags = @(RequestFlagHighDataRate);
+            NSInteger customCommandCode = 0xAA;
 
             //[self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
         }
