@@ -154,7 +154,7 @@
     self.shouldUseTagReaderSession = YES;
     BOOL reusingSession = YES;
     
-    NSArray<NSNumber *> *data = [command argumentAtIndex:0];
+    NSArray<NSNumber *> data = [command argumentAtIndex:0];
                               
     NSData *customRequestParameters = uint8ArrayToNSData(data);   
 }
