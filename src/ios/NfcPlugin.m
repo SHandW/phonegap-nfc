@@ -158,7 +158,7 @@
                               
     NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-    self.sessionCallbackId = [command.callbackId copy];
+    sessionCallbackId = [command.callbackId copy];
 
     /*if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
         self.keepSessionOpen = YES;          // do not close session after sending command
