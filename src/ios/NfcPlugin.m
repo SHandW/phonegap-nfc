@@ -148,6 +148,30 @@
     }
 }
 
+- (void)transceive:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(13.0)){
+    NSLog(@"transceive");
+    
+    self.shouldUseTagReaderSession = YES;
+    BOOL reusingSession = YES;
+    
+    NSArray<NSNumber *> *data = [command argumentAtIndex:0];
+                              
+    NSData *customRequestParameters = uint8ArrayToNSData(data);     
+
+    sessionCallbackId = [command.callbackId copy];
+
+    if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
+        self.keepSessionOpen = YES;          // do not close session after sending command
+        if (self.connectedTagBase.type == NFCTagTypeISO15693) {
+            id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)self.connectedTagBase;
+            RequestFlag flags = @(RequestFlagHighDataRate);
+            NSInteger customCommandCode = 0xAA;
+
+            [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
+        }
+    }
+}
+
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
     NSLog(@"cancelScan");
     if (self.nfcSession) {
@@ -433,9 +457,8 @@
                         tag:(id<NFCISO15693Tag>)tag 
                         flags:(RequestFlag)flags 
                         code:(NSInteger)code 
-                        param:(NSData *)param 
-                        callback:(void(^)(NSData *result))callback API_AVAILABLE(ios(13.0)){
-    /*[tag customCommandWithRequestFlag:flags
+                        param:(NSData *)param API_AVAILABLE(ios(13.0)){
+    [tag customCommandWithRequestFlag:flags
             customCommandCode: code
             customRequestParameters: param
             completionHandler:^(NSData * _Nullable resp, NSError * _Nullable error) {
@@ -443,10 +466,13 @@
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send custom command failed."];
                 } else {
-                    callback(resp);
+                    callback(resp);   
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
+                    sessionCallbackId = NULL;              
                     [self closeSession:session];    
                 }
-    }];*/
+    }];
 }
 
 #pragma mark - Tag Reader Helper Functions
