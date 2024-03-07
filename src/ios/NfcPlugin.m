@@ -172,7 +172,7 @@
             } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
                 id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
                 NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:customCommandParameters];
-                /*[self sendCommandAPDUISO78:self.nfcsession tag:tag apdu:apdu];*/       
+                [self sendCommandAPDUISO78:self.nfcsession tag:tag apdu:apdu];
             }
 
         }
@@ -487,8 +487,8 @@
 
 #pragma mark - ISO 7816 Tag functions
 - (void)sendCommandAPDUISO78:(NFCReaderSession * _Nonnull)session 
-                        tag:(id<NFCISO7816Tag>)tag 
-                        apdu:(NFCISO7816APDU *)apdu API_AVAILABLE(ios(13.0)){
+                            tag:(id<NFCISO7816Tag>)tag 
+                            apdu:(NFCISO7816APDU)apdu API_AVAILABLE(ios(13.0)){
     [tag sendCommandAPDU:apdu
             completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
                 if (error) {
