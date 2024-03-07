@@ -172,7 +172,7 @@
             } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
                 id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
                 NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:customCommandParameters];
-                [self sendCommandAPDUISO78:self.nfcsession tag:tag apdu:apdu];       
+                /*[self sendCommandAPDUISO78:self.nfcsession tag:tag apdu:apdu];*/       
             }
 
         }
