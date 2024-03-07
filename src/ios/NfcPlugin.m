@@ -164,12 +164,17 @@
         if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
             self.keepSessionOpen = YES;          // do not close session after sending command
             if (connectedTagBase.type == NFCTagTypeISO15693) {
-                id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)connectedTagBase;
+                id<NFCISO15693Tag> tag = [connectedTagBase asNFCISO15693Tag];
                 RequestFlag flags = @(RequestFlagHighDataRate);
                 NSInteger customCommandCode = 0xAA;
 
                 [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
+            } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
+                id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
+                NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:data];
+                [self sendCommandAPDUISO78:self.nfcsession tag:tag apdu:apdu];
             }
+
         }
     } @catch(NSException *e) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@: %@", @"Error in transceive", e.reason]];
@@ -471,6 +476,24 @@
                 if (error) {
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send custom command failed."];
+                } else {
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
+                    sessionCallbackId = NULL;              
+                    [self closeSession:session];    
+                }
+    }];
+}
+
+#pragma mark - ISO 7816 Tag functions
+- (void)sendCommandAPDUISO78:(NFCReaderSession * _Nonnull)session 
+                        tag:(id<NFCISO7816Tag>)tag
+                        apdu:(NFCISO7816APDU *)apdu API_AVAILABLE(ios(13.0)){
+    [tag sendCommandAPDU:apdu
+            completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                    [self closeSession:session withError:@"Send command apdu failed."];
                 } else {
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
