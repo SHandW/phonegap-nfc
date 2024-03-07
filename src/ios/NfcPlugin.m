@@ -318,6 +318,8 @@
             return;
         }
 
+        NSLog(@"%@", "connected to tag");
+
         if (self.keepSessionOpen) {
             self->connectedTagBase = tag;
         }
