@@ -154,21 +154,27 @@
     self.shouldUseTagReaderSession = YES;
     BOOL reusingSession = YES;
     
-    NSArray *data = [command argumentAtIndex:0];
+    @try {
+        NSArray *data = [command argumentAtIndex:0];
                               
-    NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+        NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-    sessionCallbackId = [command.callbackId copy];
+        sessionCallbackId = [command.callbackId copy];
 
-    if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
-        self.keepSessionOpen = YES;          // do not close session after sending command
-        if (connectedTagBase.type == NFCTagTypeISO15693) {
-            id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)connectedTagBase;
-            RequestFlag flags = @(RequestFlagHighDataRate);
-            NSInteger customCommandCode = 0xAA;
+        if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
+            self.keepSessionOpen = YES;          // do not close session after sending command
+            if (connectedTagBase.type == NFCTagTypeISO15693) {
+                id<NFCISO15693Tag> tag = (id<NFCISO15693Tag>)connectedTagBase;
+                RequestFlag flags = @(RequestFlagHighDataRate);
+                NSInteger customCommandCode = 0xAA;
 
-            [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
+                [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
+            }
         }
+    } @catch(NSException *e) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error in transceive" + e.reason];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
     }
 }
 
