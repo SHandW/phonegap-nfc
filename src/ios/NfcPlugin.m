@@ -171,7 +171,7 @@
                 [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
             } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
                 id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
-                //[self sendCommandAPDUISO78:self.nfcsession tag:tag param:customCommandParameters];
+                [self sendCommandAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
             }
 
         }
