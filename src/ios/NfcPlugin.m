@@ -313,7 +313,7 @@
     NSMutableDictionary *tagMetaData = [self getTagInfo:tag];
     id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;
 
-    NSLog(@"tagReaderSession connecting to tag");    
+    NSLog(@"connecting to tag");    
     [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
