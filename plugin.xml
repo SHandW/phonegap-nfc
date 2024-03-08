@@ -140,6 +140,11 @@
         <config-file target="*-Info.plist" parent="NFCReaderUsageDescription">
             <string>$NFC_USAGE_DESCRIPTION</string>
         </config-file>
+        <config-file target="*-Info.plist" parent="UIRequiredDeviceCapabilities">
+            <array>
+                <string>nfc</string>
+            </array>
+        </config-file>
     </platform>
 
 
