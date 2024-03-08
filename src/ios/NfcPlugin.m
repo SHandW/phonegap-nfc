@@ -224,15 +224,7 @@
     NSLog(@"enabled");
     CDVPluginResult *pluginResult;
 
-    if (@available(iOS 13.0, *)) {
-        NSLog(@"tag reading available?");
-        if ([NFCTagReaderSession readingAvailable]) {
-            NSLog(@"reading available");
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"NO_NFC"];
-        }
-    } else if (@available(iOS 11.0, *)) {
+    if (@available(iOS 11.0, *)) {
         NSLog(@"ndef reading available?");
         if ([NFCNDEFReaderSession readingAvailable]) {
             NSLog(@"reading available");
