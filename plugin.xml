@@ -118,16 +118,21 @@
         </config-file>
 
         <!-- https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_nfc_readersession_formats?language=objc -->
-        <config-file parent="com.apple.developer.nfc.readersession.formats" platform="ios" target="*-Debug.plist">
+        <edit-config target="com.apple.developer.nfc.readersession.formats" platform="ios" file="*-Debug.plist" mode="overwrite">
             <array>
-                <string>TAG</string>  
+                <string>TAG</string>
             </array>
-        </config-file>
-        <config-file parent="com.apple.developer.nfc.readersession.formats" platform="ios" target="*-Release.plist">
+        </edit-config>
+        <edit-config target="com.apple.developer.nfc.readersession.formats" platform="ios" file="*-Release.plist" mode="overwrite">
             <array>
-                <string>TAG</string>  
+                <string>TAG</string>
             </array>
-        </config-file>
+        </edit-config>
+        <edit-config target="com.apple.developer.nfc.readersession.formats" platform="ios" file="*-Info.plist" mode="overwrite">
+            <array>
+                <string>TAG</string>
+            </array>
+        </edit-config>
        
         <header-file src="src/ios/NfcPlugin.h" />
         <source-file src="src/ios/NfcPlugin.m" />
