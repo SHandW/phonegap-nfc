@@ -118,7 +118,19 @@
         </config-file>
 
         <!-- https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_nfc_readersession_formats?language=objc -->
-        <config-file parent="com.apple.developer.nfc.readersession.formats" platform="ios" target="*.entitlement">
+        <config-file parent="com.apple.developer.nfc.readersession.formats" target="*.entitlements">
+            <array>
+                <string>TAG</string>
+            </array>
+        </config-file>
+
+        <config-file parent="com.apple.developer.nfc.readersession.formats" target="**/Entitlements-Debug.plist">
+            <array>
+                <string>TAG</string>
+            </array>
+        </config-file>
+
+        <config-file parent="com.apple.developer.nfc.readersession.formats" target="**/Entitlements-Release.plist">
             <array>
                 <string>TAG</string>
             </array>
