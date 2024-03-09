@@ -315,21 +315,27 @@
     id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;
 
     NSLog(@"connecting to tag");    
-    [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
-            [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
-            return;
-        }
 
-        NSLog(@"%@", "connected to tag");
+    @try {
+        [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"%@", error);
+                [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
+                return;
+            }
 
-        if (self.keepSessionOpen) {
-            self->connectedTagBase = tag;
-        }
+            NSLog(@"%@", "connected to tag");
 
-        [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
-    }];
+            if (self.keepSessionOpen) {
+                self->connectedTagBase = tag;
+            }
+
+            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
+        }];
+    } @catch(NSException *e) {
+        NSLog(@"%@: %@", e.name, e.reason);
+        return;
+    }
 }
 
 - (void)tagReaderSession:(NFCTagReaderSession *)session didInvalidateWithError:(NSError *)error API_AVAILABLE(ios(13.0)) {
