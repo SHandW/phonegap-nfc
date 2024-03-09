@@ -317,7 +317,7 @@
     NSLog(@"connecting to tag");    
 
     @try {
-        NSLog(@"%@ %@", tag.available ? "true" : "false", tag.session.isReady ? "true" : "false")
+        NSLog(@"%@ %@", tag.available ? @"true" : @"false", tag.session.isReady ? @"true" : @"false")
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
             if (error) {
                 NSLog(@"%@", error);
