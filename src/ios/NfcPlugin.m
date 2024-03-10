@@ -319,6 +319,7 @@
     @try {
         NSLog(@"%@ %@", (tag.available ? @"true" : @"false"), (tag.session.isReady ? @"true" : @"false"));
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
+            NSLog("connected");
             if (error) {
                 NSLog(@"%@", error);
                 [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
