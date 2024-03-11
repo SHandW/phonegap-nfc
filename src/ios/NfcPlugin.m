@@ -320,6 +320,7 @@
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
             NSLog(@"connected");
             if (error) {
+                NSLog(@"Error connecting to tag");
                 NSLog(@"%@", error);
                 [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
                 return;
