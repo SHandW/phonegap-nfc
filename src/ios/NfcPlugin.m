@@ -314,16 +314,12 @@
     NSMutableDictionary *tagMetaData = [self getTagInfo:tag];
     id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;
 
-    NSLog(@"connecting to tag");    
-
     @try {
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
-            NSLog(@"connected 123");
             if (error) {
-                NSLog(@"Error connecting to tag");
-                //NSLog(@"%@", error);
-                //[self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
-                //return;
+                NSLog(@"%@", error);
+                [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
+                return;
             }
 
             NSLog(@"connected to tag");
@@ -442,9 +438,10 @@
             NSLog(@"%@", message);
             session.alertMessage = @"Token erkannt";
             [self fireNdefEvent:message metaData:metaData];
-            [self closeSession:session];
+            if (!self.keepSessionOpen) {
+                [self closeSession:session];
+            }
         }
-
     }];
 
 }
