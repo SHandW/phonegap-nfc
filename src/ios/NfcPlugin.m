@@ -714,6 +714,7 @@
   Byte bytes[[array count]];
   for (int i = 0; i < [array count]; i++) {
     bytes[i] = [[array objectAtIndex:i] integerValue];
+    NSLog(@"%@", bytes[i]);
   }
 
   NSData *payload = [[NSData alloc] initWithBytes:bytes length:[array count]];
