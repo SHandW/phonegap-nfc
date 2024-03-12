@@ -163,7 +163,7 @@
 
         NSArray *bytes = [self uint8ArrayFromNSData: arrayBuffer];
 
-        NSData *customCommandParameters = arrayToData(bytes);
+        NSData *customCommandParameters = [self arrayToData: bytes];
 
         sessionCallbackId = [command.callbackId copy];
 
@@ -715,7 +715,7 @@
   for (int i = 0; i < [array count]; i++) {
     bytes[i] = [[array objectAtIndex:i] integerValue];
   }
-  
+
   NSData *payload = [[NSData alloc] initWithBytes:bytes length:[array count]];
   return payload;
 }
