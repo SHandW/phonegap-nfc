@@ -334,6 +334,8 @@
 
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];*/
         }];
+
+        return;
     } @catch(NSException *e) {
         NSLog(@"%@: %@", e.name, e.reason);
         return;
