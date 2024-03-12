@@ -319,14 +319,14 @@
     @try {
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
             NSLog(@"connected 123");
-            /*if (error) {
+            if (error) {
                 NSLog(@"Error connecting to tag");
-                NSLog(@"%@", error);
-                [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
-                return;
+                //NSLog(@"%@", error);
+                //[self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
+                //return;
             }
 
-            NSLog(@"%@", "connected to tag");
+            /*NSLog(@"%@", "connected to tag");
 
             if (self.keepSessionOpen) {
                 self->connectedTagBase = tag;
