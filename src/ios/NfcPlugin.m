@@ -158,10 +158,12 @@
     
     @try {
         NSArray *data = [command argumentAtIndex:0];
+        NSLog(@"1: %@", data);
                               
         NSData *arrayBuffer = [NSKeyedArchiver archivedDataWithRootObject:data];
 
         NSArray *bytes = [self uint8ArrayFromNSData: arrayBuffer];
+        NSLog(@"2: %@", bytes);
 
         NSData *customCommandParameters = [self arrayToData: data];
 
