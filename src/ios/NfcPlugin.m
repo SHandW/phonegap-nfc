@@ -327,13 +327,12 @@
             }
 
             NSLog(@"connected to tag");
-            /*NSLog(@"%@", "connected to tag");
-
+            
             if (self.keepSessionOpen) {
-                self->connectedTagBase = tag;
+                self.connectedTagBase = tag;
             }
 
-            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];*/
+            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
         }];
 
         return;
