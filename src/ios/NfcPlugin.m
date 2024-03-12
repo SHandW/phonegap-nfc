@@ -158,15 +158,14 @@
     
     @try {
         NSArray *data = [command argumentAtIndex:0];
-        NSLog(@"1: %@", data);
-                              
+        
         NSData *arrayBuffer = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-        NSArray *bytes = [self uint8ArrayFromNSData: arrayBuffer];
-        NSLog(@"2: %@", bytes);
+        NSArray *bytes = [self uint8ArrayFromNSData: arrayBuffer];       
 
         NSData *customCommandParameters = [self arrayToData: data];
 
+        NSLog(@"Parameters prepared");
         sessionCallbackId = [command.callbackId copy];
 
         if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
@@ -516,6 +515,25 @@
                 if (error) {
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send command apdu failed."];
+                } else {
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
+                    sessionCallbackId = NULL;              
+                    [self closeSession:session];    
+                }
+    }];
+}
+
+#pragma mark - MiFare functions
+- (void)sendCommandMiFare:(NFCReaderSession * _Nonnull)session 
+                            tag:(id<NFCMiFareTag>)tag 
+                            param:(NSData *)param API_AVAILABLE(ios(13.0)){
+    
+    [tag sendMifareCommand:param
+            completionHandler:^(NSData * _Nullable resp, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                    [self closeSession:session withError:@"Send command mifare failed."];
                 } else {
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
