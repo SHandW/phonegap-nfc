@@ -159,7 +159,11 @@
     @try {
         NSArray *data = [command argumentAtIndex:0];
                               
-        NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+        NSData *arrayBuffer = [NSKeyedArchiver archivedDataWithRootObject:data];
+
+        NSArray *bytes = [self uint8ArrayFromNSData: arrayBuffer];
+
+        NSData *customCommandParameters = arrayToData(bytes);
 
         sessionCallbackId = [command.callbackId copy];
 
