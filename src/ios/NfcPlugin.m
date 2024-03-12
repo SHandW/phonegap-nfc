@@ -707,7 +707,17 @@
         // NSLog(@"> %hhu", b);
         [data appendBytes:&b length:1];
     }
-    return data;
+    return data;    
+}
+
+- (NSData *) arrayToData:(NSArray *) array {
+  Byte bytes[[array count]];
+  for (int i = 0; i < [array count]; i++) {
+    bytes[i] = [[array objectAtIndex:i] integerValue];
+  }
+  
+  NSData *payload = [[NSData alloc] initWithBytes:bytes length:[array count]];
+  return payload;
 }
 
 - (NSString*) dictionaryAsJSONString:(NSDictionary *)dict {
