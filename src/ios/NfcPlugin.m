@@ -87,6 +87,8 @@
     NSArray<NSDictionary *> *options = [command argumentAtIndex:0];
     self.keepSessionOpen = [options valueForKey:@"keepSessionOpen"];
 
+    NSLog(@"%@:%@", @"Keep session open", self.keepSessionOpen?@"True":@"False");
+
     [self startScanSession:command];
 }
 
