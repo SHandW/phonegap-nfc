@@ -326,7 +326,7 @@
                 //return;
             }
 
-            NSLog(@"connected to tag")
+            NSLog(@"connected to tag");
             /*NSLog(@"%@", "connected to tag");
 
             if (self.keepSessionOpen) {
