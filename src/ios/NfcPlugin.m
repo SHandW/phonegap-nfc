@@ -318,8 +318,8 @@
 
     @try {
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
-            NSLog(@"connected");
-            if (error) {
+            NSLog(@"connected 123");
+            /*if (error) {
                 NSLog(@"Error connecting to tag");
                 NSLog(@"%@", error);
                 [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
@@ -332,7 +332,7 @@
                 self->connectedTagBase = tag;
             }
 
-            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
+            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];*/
         }];
     } @catch(NSException *e) {
         NSLog(@"%@: %@", e.name, e.reason);
