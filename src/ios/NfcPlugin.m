@@ -166,7 +166,9 @@
 
         NSLog(@"Debug 1");
 
-        NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+        //NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+
+        NSData *customCommandParameters = [self dataWithHexString: @"00A4040C09D276000085010100"];
 
         /*const void *bytes = [customCommandParameters bytes];
         for (NSUInteger i = 0; i < [customCommandParameters length]; i += sizeof(uint8_t)) {
@@ -762,6 +764,22 @@
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     return jsonString;
+}
+
+- (NSData *) dataWithHexString:(NSString *)hex
+{
+	char buf[3];
+	buf[2] = '\0';
+	unsigned char *bytes = malloc([hex length]/2);
+	unsigned char *bp = bytes;
+	for (CFIndex i = 0; i < [hex length]; i += 2) {
+		buf[0] = [hex characterAtIndex:i];
+		buf[1] = [hex characterAtIndex:i+1];
+		char *b2 = NULL;
+		*bp++ = strtol(buf, &b2, 16);
+	}
+	
+	return [NSData dataWithBytesNoCopy:bytes length:[hex length]/2 freeWhenDone:YES];
 }
 
 @end
