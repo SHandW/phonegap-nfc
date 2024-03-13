@@ -164,7 +164,7 @@
         //NSData *customCommandParameters = [self arrayToData: data];
         
         NSString *strData = [[NSString alloc]initWithData:customCommandParameters encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",strData);
+        NSLog(@"%@",customCommandParameters);
         
         NSLog(@"Parameters prepared");
         
