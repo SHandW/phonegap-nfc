@@ -161,15 +161,17 @@
         NSLog(@"%@", data);
 
         for (int i = 0; i < [data count]; i++) {
-            NSLog(@"%@: %@", i, [data objectAtIndex:i]);
+            NSLog(@"%@", i);
         }
+
+        NSLog(@"Debug 1");
 
         NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-        const void *bytes = [customCommandParameters bytes];
+        /*const void *bytes = [customCommandParameters bytes];
         for (NSUInteger i = 0; i < [customCommandParameters length]; i += sizeof(uint8_t)) {
             NSLog(@"%@", OSReadLittleInt(bytes, i));
-        }
+        }*/
 
         //NSData *customCommandParameters = [self arrayToData: data];
         
