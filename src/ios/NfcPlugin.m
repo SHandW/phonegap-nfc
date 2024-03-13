@@ -158,11 +158,11 @@
     
     @try {
         NSArray *data = [command argumentAtIndex:0];
-        
-        //NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
-
-        NSData *customCommandParameters = [self arrayToData: data];
         NSLog(@"%@", data);
+        NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+
+        //NSData *customCommandParameters = [self arrayToData: data];
+        
         NSLog(@"Parameters prepared");
         
         sessionCallbackId = [command.callbackId copy];
