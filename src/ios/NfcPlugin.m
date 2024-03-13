@@ -162,7 +162,7 @@
         NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
         //NSData *customCommandParameters = [self arrayToData: data];
-
+        NSLog(@"%@", data);
         NSLog(@"Parameters prepared");
         
         sessionCallbackId = [command.callbackId copy];
