@@ -162,8 +162,8 @@
 
         NSLog(@"%@", [data count]);
 
-        for (int i = 0; i < [data count]; i++) {
-            NSLog(@"%@", i);
+        for (id element in data){
+            NSLog(@"%@",element);
         }
 
         NSLog(@"Debug 1");
