@@ -160,13 +160,17 @@
         NSArray *data = [command argumentAtIndex:0];
         NSLog(@"%@", data);
 
+        NSLog(@"Debug 1");
+
         NSLog(@"%@", [data count]);
+
+         NSLog(@"Debug 2");
 
         for (id element in data){
             NSLog(@"%@",element);
         }
 
-        NSLog(@"Debug 1");
+        NSLog(@"Debug 3");
 
         //NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
@@ -525,6 +529,17 @@
                             param:(NSData *)param API_AVAILABLE(ios(13.0)){
     
     NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
+
+    /*uint8_t *cla = [apduData objectForKey:@"cla"];
+                NSNumber *ins = [apduData objectForKey:@"ins"];
+                NSNumber *p1 = [apduData objectForKey:@"p1"];
+                NSNumber *p2 = [apduData objectForKey:@"p2"];
+                NSArray *dataArray = [apduData objectForKey:@"data"];
+                NSData *data = arrayToData(dataArray);
+                NSNumber *le = [apduData objectForKey:@"le"];
+
+    NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:cla instructionCode:ins p1Parameter:p1 p2Parameter:p2 data:data expectedResponseLength:le];*/
+                
     [tag sendCommandAPDU:apdu
             completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
                 if (error) {
