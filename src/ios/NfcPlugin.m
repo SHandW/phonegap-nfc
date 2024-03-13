@@ -157,8 +157,11 @@
     BOOL reusingSession = YES;
     
     @try {
-        NSArray *data = [command argumentAtIndex:0];
-        NSLog(@"%@", data);
+        id test = [command argumentAtIndex:0];
+
+        NSLog(@"%@", [test isKindOfClass:[NSArray class]] ? @"True": @"False")
+        //NSArray *data = [command argumentAtIndex:0];
+        //NSLog(@"%@", data);
 
         NSLog(@"Debug 1");
         //NSUInteger count = data.count;
@@ -166,15 +169,15 @@
 
          NSLog(@"Debug 2");
 
-        for (id element in data){
+        /*for (id element in data){
             NSLog(@"%@",element);
         }
 
-        NSLog(@"Debug 3");
+        NSLog(@"Debug 3");*/
 
         //NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-        NSData *customCommandParameters = [self dataWithHexString: @"00A4040C09D276000085010100"];
+        //NSData *customCommandParameters = [self dataWithHexString: @"00A4040C09D276000085010100"];
 
         /*const void *bytes = [customCommandParameters bytes];
         for (NSUInteger i = 0; i < [customCommandParameters length]; i += sizeof(uint8_t)) {
@@ -187,7 +190,7 @@
         
         sessionCallbackId = [command.callbackId copy];
 
-        if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
+        /*if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
             self.keepSessionOpen = YES;          // do not close session after sending command
             if (connectedTagBase.type == NFCTagTypeISO15693) {
                 id<NFCISO15693Tag> tag = [connectedTagBase asNFCISO15693Tag];
@@ -200,7 +203,7 @@
                 [self sendCommandAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
             }
 
-        }
+        }*/
     } @catch(NSException *e) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@: %@", @"Error in transceive", e.reason]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
