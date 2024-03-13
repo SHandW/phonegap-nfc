@@ -163,6 +163,9 @@
 
         //NSData *customCommandParameters = [self arrayToData: data];
         
+        NSString *strData = [[NSString alloc]initWithData:customCommandParameters encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",strData);
+        
         NSLog(@"Parameters prepared");
         
         sessionCallbackId = [command.callbackId copy];
@@ -509,7 +512,6 @@
                             param:(NSData *)param API_AVAILABLE(ios(13.0)){
     
     NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
-    NSLog(@"Lc:%@", apdu.expectedResponseLength);
     [tag sendCommandAPDU:apdu
             completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
                 if (error) {
