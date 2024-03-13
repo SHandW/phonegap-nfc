@@ -161,7 +161,7 @@
         NSLog(@"%@", data);
 
         NSLog(@"Debug 1");
-        NSUInteger count = data.count;
+        //NSUInteger count = data.count;
         //NSLog(@"%@", count);
 
          NSLog(@"Debug 2");
