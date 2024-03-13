@@ -166,6 +166,11 @@
 
         NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
+        const void *bytes = [customCommandParameters bytes];
+        for (NSUInteger i = 0; i < [customCommandParameters length]; i += sizeof(uint8_t)) {
+            NSLog(@"%@", OSReadLittleInt(bytes, i));
+        }
+
         //NSData *customCommandParameters = [self arrayToData: data];
         
         NSLog(@"Parameters prepared");
