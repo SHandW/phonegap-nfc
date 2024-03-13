@@ -164,6 +164,7 @@
         //NSData *customCommandParameters = [self arrayToData: data];
 
         NSLog(@"Parameters prepared");
+        
         sessionCallbackId = [command.callbackId copy];
 
         if (self.nfcSession && self.nfcSession.isReady) {       // reuse existing session
@@ -527,7 +528,7 @@
                             tag:(id<NFCMiFareTag>)tag 
                             param:(NSData *)param API_AVAILABLE(ios(13.0)){
     
-    [tag sendMifareCommand:param
+    [tag sendMiFareCommand:param
             completionHandler:^(NSData * _Nullable resp, NSError * _Nullable error) {
                 if (error) {
                     NSLog(@"%@", error);
