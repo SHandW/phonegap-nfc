@@ -157,9 +157,9 @@
     BOOL reusingSession = YES;
     
     @try {
-        id test = [command argumentAtIndex:0];
+        BOOL isArray = [[command argumentAtIndex:0] isKindOfClass:[NSArray class]];
 
-        NSLog(@"%@", [test isKindOfClass:[NSArray class]] ? @"True": @"False")
+        NSLog(@"%@", isArray ? @"True": @"False");
         //NSArray *data = [command argumentAtIndex:0];
         //NSLog(@"%@", data);
 
