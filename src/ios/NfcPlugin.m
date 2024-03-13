@@ -159,9 +159,9 @@
     @try {
         NSArray *data = [command argumentAtIndex:0];
         
-        NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
+        //NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
-        //NSData *customCommandParameters = [self arrayToData: data];
+        NSData *customCommandParameters = [self arrayToData: data];
         NSLog(@"%@", data);
         NSLog(@"Parameters prepared");
         
@@ -733,7 +733,6 @@
   Byte bytes[[array count]];
   for (int i = 0; i < [array count]; i++) {
     bytes[i] = [[array objectAtIndex:i] integerValue];
-    NSLog(@"%@", bytes[i]);
   }
 
   NSData *payload = [[NSData alloc] initWithBytes:bytes length:[array count]];
