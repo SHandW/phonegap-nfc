@@ -160,6 +160,8 @@
         NSArray *data = [command argumentAtIndex:0];
         NSLog(@"%@", data);
 
+        NSLog(@"%@", [data count]);
+
         for (int i = 0; i < [data count]; i++) {
             NSLog(@"%@", i);
         }
