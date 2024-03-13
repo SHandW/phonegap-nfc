@@ -159,12 +159,14 @@
     @try {
         NSArray *data = [command argumentAtIndex:0];
         NSLog(@"%@", data);
+
+        for (int i = 0; i < [data count]; i++) {
+            NSLog(@"%@: %@", i, [array objectAtIndex:i]);
+        }
+
         NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
 
         //NSData *customCommandParameters = [self arrayToData: data];
-        
-        NSString *strData = [[NSString alloc]initWithData:customCommandParameters encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",customCommandParameters);
         
         NSLog(@"Parameters prepared");
         
