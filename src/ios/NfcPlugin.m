@@ -161,7 +161,7 @@
         NSLog(@"%@", data);
 
         for (int i = 0; i < [data count]; i++) {
-            NSLog(@"%@: %@", i, [array objectAtIndex:i]);
+            NSLog(@"%@: %@", i, [data objectAtIndex:i]);
         }
 
         NSData *customCommandParameters = [NSKeyedArchiver archivedDataWithRootObject:data];
