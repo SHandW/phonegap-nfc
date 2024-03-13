@@ -159,7 +159,13 @@
     @try {
         BOOL isArray = [[command argumentAtIndex:0] isKindOfClass:[NSArray class]];
 
-        NSLog(@"%@", isArray ? @"True": @"False");
+        BOOL isData = [[command argumentAtIndex:0] isKindOfClass:[NSData class]];
+
+        BOOL isString = [[command argumentAtIndex:0] isKindOfClass:[NSString class]];
+
+        NSLog(@"is Array: %@", isArray ? @"True": @"False");
+        NSLog(@"is Data: %@", isData ? @"True": @"False");
+        NSLog(@"is String: %@", isString ? @"True": @"False");
         //NSArray *data = [command argumentAtIndex:0];
         //NSLog(@"%@", data);
 
