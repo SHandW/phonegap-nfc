@@ -511,20 +511,17 @@
                     [self closeSession:session withError:@"Send command apdu failed."];
                 } else {
                     NSLog(@"%@", @"command returned");
+                    NSMutableData *data = [[NSMutableData alloc] initWithCapacity: (resp.length + 1)];
 
-                    if (resp.length == 0) {
-                        NSMutableData *data = [[NSMutableData alloc] initWithCapacity: 2];
-                        [data appendBytes:&sw1 length:1];
-                        [data appendBytes:&sw2 length:1];
-                        
-                        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:data];
-                        [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId]; 
-                    } else {
-                        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
-                        [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId]; 
+                    if (resp.length > 0) {
+                        [data appendBytes:[resp bytes] length:resp.length];
                     }
                     
-                    
+                    [data appendBytes:&sw1 length:1];
+                    [data appendBytes:&sw2 length:1];
+
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:data];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;      
 
                     if (!self.keepSessionOpen) {
