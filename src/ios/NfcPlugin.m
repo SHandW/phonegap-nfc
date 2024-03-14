@@ -516,8 +516,6 @@
                         NSMutableData *data = [[NSMutableData alloc] initWithCapacity: 2];
                         [data appendBytes:&sw1 length:1];
                         [data appendBytes:&sw2 length:1];
-
-                        NSLog(@"Response: %@", data);
                         
                         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:data];
                         [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId]; 
@@ -527,8 +525,11 @@
                     }
                     
                     
-                    sessionCallbackId = NULL;              
-                    [self closeSession:session];    
+                    sessionCallbackId = NULL;      
+
+                    if (!self.keepSessionOpen) {
+                        [self closeSession:session];
+                    }        
                 }
     }];
 }
