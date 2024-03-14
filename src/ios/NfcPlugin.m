@@ -169,9 +169,12 @@
                 NSInteger customCommandCode = 0xAA;
 
                 [self customCommandISO15:self.nfcSession flags:flags tag:tag code:customCommandCode param:customCommandParameters];
-            } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
-                id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
-                [self sendCommandAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
+            //} else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
+            } else {
+                //id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
+                //[self sendCommandAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
+                id<NFCMiFareTag> tag = [connectedTagBase asNFCMiFareTag];
+                [self sendCommandMiFare:self.nfcSession tag:tag param:customCommandParameters];
             }
 
         }
@@ -538,6 +541,15 @@
                     NSLog(@"%@", error);
                     [self closeSession:session withError:@"Send command mifare failed."];
                 } else {
+                    NSLog(@"%@", @"command returned");
+                    if (resp) {
+                        NSLog(@"Response length: %@", resp.length);
+                        NSLog(@"Response: %@", resp);
+
+                    } else {
+                        NSLog(@"%@", @"No reponse");    
+                    }
+
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;              
