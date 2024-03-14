@@ -511,7 +511,7 @@
                     [self closeSession:session withError:@"Send command apdu failed."];
                 } else {
                     NSLog(@"%@", @"command returned");
-                    NSMutableData *data = [[NSMutableData alloc] initWithCapacity: (resp.length + 1)];
+                    NSMutableData *data = [[NSMutableData alloc] initWithCapacity: (resp.length + 2)];
 
                     if (resp.length > 0) {
                         [data appendBytes:[resp bytes] length:resp.length];
