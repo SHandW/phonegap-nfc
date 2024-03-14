@@ -136,7 +136,6 @@
 
         <config-file parent="com.apple.developer.nfc.readersession.iso7816.select-identifiers" platform="ios" target="*-Info.plist">
             <array>
-                <string>000000</string>
                 <string>D2760000850100</string>
             </array>
         </config-file>
