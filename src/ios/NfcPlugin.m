@@ -174,7 +174,7 @@
                 //id<NFCISO7816Tag> tag = [connectedTagBase asNFCISO7816Tag];
                 //[self sendCommandAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
                 id<NFCMiFareTag> tag = [connectedTagBase asNFCMiFareTag];
-                [self sendCommandMiFare:self.nfcSession tag:tag param:customCommandParameters];
+                [self sendCommandMiFareAPDUISO78:self.nfcSession tag:tag param:customCommandParameters];
             }
 
         }
@@ -550,6 +550,35 @@
                         NSLog(@"%@", @"No reponse");    
                     }
 
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
+                    sessionCallbackId = NULL;              
+                    [self closeSession:session];    
+                }
+    }];
+}
+
+- (void)sendCommandMiFareAPDUISO78:(NFCReaderSession * _Nonnull)session 
+                            tag:(id<NFCMiFareTag>)tag 
+                            param:(NSData *)param API_AVAILABLE(ios(13.0)){
+    
+    NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
+    
+    [tag sendMiFareISO7816Command:apdu
+            completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                    [self closeSession:session withError:@"Send command apdu failed."];
+                } else {
+                    NSLog(@"%@", @"command returned");
+                    if (resp) {
+                        NSLog(@"Response length: %@", resp.length);
+                        NSLog(@"Response: %@", resp);
+
+                    } else {
+                        NSLog(@"%@", @"No reponse");    
+                    }
+                    
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;              
