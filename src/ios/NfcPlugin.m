@@ -511,7 +511,8 @@
                     [self closeSession:session withError:@"Send command apdu failed."];
                 } else {
                     NSLog(@"%@", @"command returned");
-                    NSLog(@"sw1: %@, sw2: %@", sw1, sw2);
+                    NSLog(@"sw1: %@", sw1);
+                    NSLog(@"sw2: %@", sw2);
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;              
