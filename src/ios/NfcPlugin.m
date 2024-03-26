@@ -407,7 +407,7 @@
         if (self.writeMode) {
             [self writeNDEFTag:session status:status tag:tag];
         } else if (self.commandMode) {
-            [self executeCommand:session status:status tag:connectedTagBase param:commandAPDU];
+            [self executeCommand:session status:status];
         } else {
             // save tag & status so we can re-use in write
             if (self.keepSessionOpen) {
@@ -483,7 +483,7 @@
     }
 }
 
-- (void)executeCommand:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCTag>)tag param:(NSData *)param API_AVAILABLE(ios(13.0)){
+- (void)executeCommand:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status API_AVAILABLE(ios(13.0)){
     switch (status) {
         case NFCNDEFStatusNotSupported:
             [self closeSession:session withError:@"Tag does not support NDEF."];  // alternate message "Tag does not support NDEF."
@@ -492,15 +492,15 @@
             [self closeSession:session withError:@"Tag is read only."];
             break;
         case NFCNDEFStatusReadWrite: {            
-            if (tag.type == NFCTagTypeISO15693) {
-                id<NFCISO15693Tag> iso15693Tag = [tag asNFCISO15693Tag];
+            if (connectedTagBase.type == NFCTagTypeISO15693) {
+                id<NFCISO15693Tag> iso15693Tag = [connectedTagBase asNFCISO15693Tag];
                 RequestFlag flags = @(RequestFlagHighDataRate);
                 NSInteger customCommandCode = 0xAA;
 
-                [self customCommandISO15:session flags:flags tag:iso15693Tag code:customCommandCode param:param];
-            } else if (tag.type == NFCTagTypeISO7816Compatible) {
-                id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
-                [self sendCommandAPDUISO78:session tag:iso7816Tag param:param];
+                [self customCommandISO15:session flags:flags tag:iso15693Tag code:customCommandCode param:self.commandAPDU];
+            } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
+                id<NFCISO7816Tag> iso7816Tag = [connectedTagBase asNFCISO7816Tag];
+                [self sendCommandAPDUISO78:session tag:iso7816Tag param:self.commandAPDU];
             }   
             break;            
         }
