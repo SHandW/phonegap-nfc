@@ -179,7 +179,7 @@
         }
 
         if (reusingSession) {                   // reusing a read session
-            [self executeCommand:self:nfcSession status:connectedTagStatus];            
+            [self executeCommand:self.nfcSession status:self.connectedTagStatus];            
         } else {
             [self.nfcSession beginSession];
         }
