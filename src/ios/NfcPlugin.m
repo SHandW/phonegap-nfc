@@ -179,7 +179,7 @@
         }
 
         if (reusingSession) {                   // reusing a read session
-            [self executeCommand:self:nfcSession status:connectedTagStatus tag:self.connectedTagBase param:self.commandAPDU];            
+            //[self executeCommand:self:nfcSession status:connectedTagStatus tag:self.connectedTagBase param:self.commandAPDU];            
         } else {
             [self.nfcSession beginSession];
         }
@@ -407,7 +407,7 @@
         if (self.writeMode) {
             [self writeNDEFTag:session status:status tag:tag];
         } else if (self.commandMode) {
-            [self executeCommand:session status:status tag:self.connectedTagBase param:self.commandAPDU];
+            //[self executeCommand:session status:status tag:self.connectedTagBase param:self.commandAPDU];
         } else {
             // save tag & status so we can re-use in write
             if (self.keepSessionOpen) {
@@ -499,7 +499,7 @@
 
                 [self customCommandISO15:session flags:flags tag:iso15693Tag code:customCommandCode param:param];
             } else if (tag.type == NFCTagTypeISO7816Compatible) {
-                id<NFCISO7816Tag> iso7816Tag = [connectedTagBase asNFCISO7816Tag];
+                id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
                 [self sendCommandAPDUISO78:session tag:iso7816Tag param:param];
             }   
             break;            
