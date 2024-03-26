@@ -446,9 +446,7 @@
             NSLog(@"%@", message);
             session.alertMessage = @"Token erkannt";
             [self fireNdefEvent:message metaData:metaData];
-            if (!self.keepSessionOpen) {
-                [self closeSession:session];
-            }
+            [self closeSession:session];
         }
     }];
 
@@ -526,9 +524,7 @@
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:resp];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;              
-                    if (!self.keepSessionOpen) {
-                        [self closeSession:session];
-                    } 
+                    [self closeSession:session];
                 }
     }];
 }
@@ -559,9 +555,7 @@
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:sessionCallbackId];
                     sessionCallbackId = NULL;      
 
-                    if (!self.keepSessionOpen) {
-                        [self closeSession:session];
-                    }        
+                    [self closeSession:session];
                 }
     }];
 }
