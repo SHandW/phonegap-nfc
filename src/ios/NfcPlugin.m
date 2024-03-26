@@ -407,7 +407,7 @@
         if (self.writeMode) {
             [self writeNDEFTag:session status:status tag:tag];
         } else if (self.commandMode) {
-            //[self executeCommand:session status:status tag:self.connectedTagBase param:self.commandAPDU];
+            [self executeCommand:session status:status tag:self.connectedTagBase param:self.commandAPDU];
         } else {
             // save tag & status so we can re-use in write
             if (self.keepSessionOpen) {
