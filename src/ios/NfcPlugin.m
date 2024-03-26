@@ -161,7 +161,7 @@
         
     sessionCallbackId = [command.callbackId copy];
 
-    @try {
+    /*@try {
         if (self.nfcSession && self.nfcSession.isReady) {   // reuse existing session   
             if (self.shouldUseTagReaderSession) {
                 reusingSession = YES;   
@@ -187,7 +187,7 @@
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@: %@", @"Error in transceive", e.reason]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
-    }
+    }*/
 }
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
