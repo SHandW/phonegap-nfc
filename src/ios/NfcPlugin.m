@@ -156,7 +156,7 @@
     self.commandMode = YES;
     BOOL reusingSession = NO;
 
-    self.commandAPDU = [command argumentAtIndex:0];
+    /*self.commandAPDU = [command argumentAtIndex:0];
     NSLog(@"%@", self.commandAPDU);
         
     sessionCallbackId = [command.callbackId copy];
@@ -187,7 +187,7 @@
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@: %@", @"Error in transceive", e.reason]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
-    }
+    }*/
 }
 
 - (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
