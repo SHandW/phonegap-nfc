@@ -169,7 +169,7 @@
                 [self sendError:@"Tag Reader Session is required."];
                 return;  
             }
-        } /*else {                                            // create a new session
+        } else {                                            // create a new session
             self.shouldUseTagReaderSession = TRUE;
                                                  
             self.nfcSession = [[NFCTagReaderSession alloc]
@@ -178,11 +178,11 @@
 
         }
 
-        /*if (reusingSession) {                   // reusing a read session
+        if (reusingSession) {                   // reusing a read session
             [self executeCommand:self.nfcSession status:self.connectedTagStatus];            
         } else {
             [self.nfcSession beginSession];
-        }*/
+        }
     } @catch(NSException *e) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@: %@", @"Error in transceive", e.reason]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
