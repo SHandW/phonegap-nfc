@@ -484,7 +484,7 @@
 }
 
 - (void)executeCommand:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCTag>)tag param:(NSData *)param API_AVAILABLE(ios(13.0)){
-    /*switch (status) {
+    switch (status) {
         case NFCNDEFStatusNotSupported:
             [self closeSession:session withError:@"Tag does not support NDEF."];  // alternate message "Tag does not support NDEF."
             break;
@@ -506,7 +506,7 @@
         }
         default:
             [self closeSession:session withError:@"Lesefehler; versuche es erneut"];
-    } */ 
+    }  
 }
 
 #pragma mark - ISO 15693 Tag functions
