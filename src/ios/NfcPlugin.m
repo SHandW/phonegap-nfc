@@ -246,6 +246,11 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)close:(CDVInvokedUrlCommand *)command API_AVAILABLE(ios(11.0)){
+    NSLog(@"close");
+    [self cancelScan:command];
+}
+
 #pragma mark - NFCNDEFReaderSessionDelegate
 
 // iOS 11 & 12
