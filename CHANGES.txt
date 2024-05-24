@@ -1,3 +1,9 @@
+= 1.2.2 =
+iOS allow transceive
+
+= 1.2.1 =
+Remove NDEF tag in the plist
+
 = 1.2.0 =
 iOS allow tag read and write in same session #419
 
