@@ -328,7 +328,9 @@
     id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;
 
     @try {
+        NSLog(@"tagReaderSession connectToTag");
         [session connectToTag:tag completionHandler:^(NSError * _Nullable error) {
+            NSLog(@"tagReaderSession connected to tag");
             if (error) {
                 NSLog(@"%@", error);
                 [self closeSession:session withError:@"Verbindungsfehler; versuche es erneut."];
@@ -339,9 +341,11 @@
                 self->connectedTagBase = tag;
             }
 
+            NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
         }];
 
+        NSLog(@"tagReaderSession return");
         return;
     } @catch(NSException *e) {
         NSLog(@"%@: %@", e.name, e.reason);
@@ -401,8 +405,9 @@
 }
 
 - (void)processNDEFTag: (NFCReaderSession *)session tag:(__kindof id<NFCNDEFTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
-                            
+     NSLog(@"processNDEFTag");                       
     [tag queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError * _Nullable error) {
+        NSLog(@"processNDEFTag queryNDEFStatusWithCompletionHandler");
         if (error) {
             NSLog(@"%@", error);
             [self closeSession:session withError:@"Lesefehler; versuche es erneut."];
@@ -412,6 +417,7 @@
         if (self.writeMode) {
             [self writeNDEFTag:session status:status tag:tag];
         } else if (self.commandMode) {
+            NSLog(@"processNDEFTag commandMode");
             [self executeCommand:session status:status];
         } else {
             // save tag & status so we can re-use in write
@@ -419,6 +425,8 @@
                 self->connectedTagStatus = status;
                 self->connectedTag = tag;
             }
+
+            NSLog(@"processNDEFTag readNDEFTag");
             [self readNDEFTag:session status:status tag:tag metaData:metaData];
         }
 
@@ -426,7 +434,7 @@
 }
 
 - (void)readNDEFTag:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCNDEFTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData  API_AVAILABLE(ios(13.0)){
-        
+    NSLog(@"readNDEFTag");    
     if (status == NFCNDEFStatusNotSupported) {
         NSLog(@"Tag does not support NDEF");
         [self fireTagEvent:metaData];
@@ -441,7 +449,7 @@
     }
     
     [tag readNDEFWithCompletionHandler:^(NFCNDEFMessage * _Nullable message, NSError * _Nullable error) {
-
+        NSLog(@"readNDEFTag readNDEFWithCompletionHandler");  
         // Error Code=403 "NDEF tag does not contain any NDEF message" is not an error for this plugin
         if (error && error.code != 403) {
             NSLog(@"%@", error);
@@ -450,6 +458,7 @@
         } else {
             NSLog(@"%@", message);
             session.alertMessage = @"Token erkannt";
+            NSLog(@"readNDEFTag fireNdefEvent"); 
             [self fireNdefEvent:message metaData:metaData];
             [self closeSession:session];
         }
