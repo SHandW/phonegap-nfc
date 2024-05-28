@@ -23,8 +23,8 @@
 @property (strong, nonatomic) NFCReaderSession *nfcSession API_AVAILABLE(ios(11.0));
 @property (strong, nonatomic) NFCNDEFMessage *messageToWrite API_AVAILABLE(ios(11.0));
 @property (strong, nonatomic) NSData *commandAPDU API_AVAILABLE(ios(13.0));
-@property (strong, nonatomic) NSString *initializeScanMessage;
-@property (strong, nonatomic) NSString *startScanMessage;
+@property (strong, nonatomic) NSString* initializeScanMessage;
+@property (strong, nonatomic) NSString* startScanMessage;
 
 @end
 
@@ -378,7 +378,7 @@
     self.commandMode = NO;
 
     if (self.initializeScanMessage == nil || self.initializeScanMessage.length == 0){
-        self.initializeScanMessage = @"Hold the iPhone in front of your tokens."
+        self.initializeScanMessage = @"Hold the iPhone in front of your tokens.";
     }
     
     NSLog(@"shouldUseTagReaderSession %d", self.shouldUseTagReaderSession);
@@ -465,7 +465,7 @@
     }
 
     if (self.startScanMessage == nil || self.startScanMessage.length == 0){
-        self.startScanMessage = @"Token detected."
+        self.startScanMessage = @"Token detected.";
     }
     
     [tag readNDEFWithCompletionHandler:^(NFCNDEFMessage * _Nullable message, NSError * _Nullable error) {
