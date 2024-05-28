@@ -377,9 +377,9 @@
     self.writeMode = NO;
     self.commandMode = NO;
 
-    if (self.initializeScanMessage == nil || self.initializeScanMessage.length == 0){
+    /*if (self.initializeScanMessage == nil || self.initializeScanMessage.length == 0){
         self.initializeScanMessage = @"Hold the iPhone in front of your tokens.";
-    }
+    }*/
     
     NSLog(@"shouldUseTagReaderSession %d", self.shouldUseTagReaderSession);
     NSLog(@"callbackOnSessionStart %d", self.sendCallbackOnSessionStart);
@@ -464,9 +464,9 @@
         metaData[@"isWritable"] = @TRUE;
     }
 
-    if (self.startScanMessage == nil || self.startScanMessage.length == 0){
+    /*if (self.startScanMessage == nil || self.startScanMessage.length == 0){
         self.startScanMessage = @"Token detected.";
-    }
+    }*/
     
     [tag readNDEFWithCompletionHandler:^(NFCNDEFMessage * _Nullable message, NSError * _Nullable error) {
         NSLog(@"readNDEFTag readNDEFWithCompletionHandler");  
