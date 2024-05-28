@@ -464,9 +464,9 @@
         metaData[@"isWritable"] = @TRUE;
     }
 
-    /*if (self.startScanMessage == nil || self.startScanMessage.length == 0){
+    if (self.startScanMessage == nil || self.startScanMessage.length == 0){
         self.startScanMessage = @"Token detected.";
-    }*/
+    }
     
     [tag readNDEFWithCompletionHandler:^(NFCNDEFMessage * _Nullable message, NSError * _Nullable error) {
         NSLog(@"readNDEFTag readNDEFWithCompletionHandler");  
@@ -477,7 +477,7 @@
             return;
         } else {
             NSLog(@"%@", message);
-            //session.alertMessage = self.startScanMessage;
+            session.alertMessage = self.startScanMessage;
             NSLog(@"readNDEFTag fireNdefEvent"); 
             [self fireNdefEvent:message metaData:metaData];
             [self closeSession:session];
