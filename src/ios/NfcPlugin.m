@@ -405,7 +405,7 @@
         NSLog(@"iOS < 13, using NFCNDEFReaderSession");
         self.nfcSession = [[NFCNDEFReaderSession alloc]initWithDelegate:self queue:nil invalidateAfterFirstRead:TRUE];
         sessionCallbackId = [command.callbackId copy];
-        self.nfcSession.alertMessage = message;
+        self.nfcSession.alertMessage = self.initializeScanMessage;;
         [self.nfcSession beginSession];
     } else {
         NSLog(@"iOS < 11, no NFC support");
@@ -477,7 +477,7 @@
             return;
         } else {
             NSLog(@"%@", message);
-            session.alertMessage = self.startScanMessage;
+            //session.alertMessage = self.startScanMessage;
             NSLog(@"readNDEFTag fireNdefEvent"); 
             [self fireNdefEvent:message metaData:metaData];
             [self closeSession:session];
