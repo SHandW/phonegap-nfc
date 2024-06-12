@@ -355,8 +355,8 @@
             //NSLog(@"tagReaderSession processNDEFTag");
             //[self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
 
-            NSLog(@"tagReaderSession processTag");
-            [self processTag:session tag:tag metaData:tagMetaData];
+            //NSLog(@"tagReaderSession processTag");
+            //[self processTag:session tag:tag metaData:tagMetaData];
         }];
 
         NSLog(@"tagReaderSession return");
@@ -452,7 +452,7 @@
     }];
 }
 
-- (void)processTag: (NFCReaderSession *)session tag:(__kindof id<NFCTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
+/*- (void)processTag: (NFCReaderSession *)session tag:(__kindof id<NFCTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
      NSLog(@"processTag");       
 
      id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;                
@@ -487,7 +487,7 @@
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
         }
     }];
-}
+}*/
 
 - (void)readNDEFTag:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCNDEFTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData  API_AVAILABLE(ios(13.0)){
     NSLog(@"readNDEFTag");    
