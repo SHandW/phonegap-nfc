@@ -458,7 +458,7 @@
      id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;                
     [ndefTag queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError * _Nullable error) {
         NSLog(@"processNDEFTag queryNDEFStatusWithCompletionHandler");
-        if (error) {
+        /*if (error) {
             NSLog(@"%@", error);
             [self closeSession:session withError:@"Lesefehler; versuche es erneut."];
             return;
@@ -474,18 +474,18 @@
                 [self executeCommand:session status:status];
             } else {
                 // save tag & status so we can re-use in write
-                /*if (self.keepSessionOpen) {
+                if (self.keepSessionOpen) {
                     self->connectedTagStatus = status;
                     self->connectedTag = tag;
                 }
 
                 NSLog(@"processTag readNonNDEFTag");
-                [self readNonNDEFTag:session tag:tag metaData:metaData];*/
+                [self readNonNDEFTag:session tag:tag metaData:metaData];
             }  
         } else {
             NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
-        }
+        }*/
     }];
 }
 
