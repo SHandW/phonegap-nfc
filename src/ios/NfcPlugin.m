@@ -464,10 +464,10 @@
             return;
         }
 
-        if (status == NFCNDEFStatusNotSupported) {
+        /*if (status == NFCNDEFStatusNotSupported) {
             NSLog(@"Tag does not support NDEF");
 
-            /*if (self.writeMode) {
+            if (self.writeMode) {
                 //[self writeNDEFTag:session status:status tag:tag];
             } else if (self.commandMode) {
                 NSLog(@"processTag commandMode");
@@ -481,11 +481,11 @@
 
                 NSLog(@"processTag readNonNDEFTag");
                 [self readNonNDEFTag:session tag:tag metaData:metaData];
-            }*/  
+            }  
         } else {
             NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
-        }
+        }*/
     }];
 }
 
