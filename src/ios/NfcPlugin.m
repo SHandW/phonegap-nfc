@@ -452,7 +452,7 @@
     }];
 }
 
-/*- (void)processTag: (NFCReaderSession *)session tag:(__kindof id<NFCTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
+- (void)processTag: (NFCReaderSession *)session tag:(__kindof id<NFCTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
      NSLog(@"processTag");       
 
      id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;                
@@ -474,20 +474,20 @@
                 [self executeCommand:session status:status];
             } else {
                 // save tag & status so we can re-use in write
-                if (self.keepSessionOpen) {
+                /*if (self.keepSessionOpen) {
                     self->connectedTagStatus = status;
                     self->connectedTag = tag;
                 }
 
                 NSLog(@"processTag readNonNDEFTag");
-                [self readNonNDEFTag:session tag:tag metaData:metaData];
+                [self readNonNDEFTag:session tag:tag metaData:metaData];*/
             }  
         } else {
             NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
         }
     }];
-}*/
+}
 
 - (void)readNDEFTag:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCNDEFTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData  API_AVAILABLE(ios(13.0)){
     NSLog(@"readNDEFTag");    
