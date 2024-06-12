@@ -587,8 +587,8 @@
     if (tag.type == NFCTagTypeISO7816Compatible) {
         id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
         
-        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0xFF
-                                                    instructionCode: 0xCA
+        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0x90
+                                                    instructionCode: 0x60
                                                     p1Parameter:0
                                                     p2Parameter:0
                                                     data:[[NSData alloc] init] 
