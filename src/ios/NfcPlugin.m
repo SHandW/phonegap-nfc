@@ -355,8 +355,8 @@
             //NSLog(@"tagReaderSession processNDEFTag");
             //[self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
 
-            //NSLog(@"tagReaderSession processTag");
-            //[self processTag:session tag:tag metaData:tagMetaData];
+            NSLog(@"tagReaderSession processTag");
+            [self processTag:session tag:tag metaData:tagMetaData];
         }];
 
         NSLog(@"tagReaderSession return");
