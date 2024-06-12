@@ -482,10 +482,10 @@
                 NSLog(@"processTag readNonNDEFTag");
                 [self readNonNDEFTag:session tag:tag metaData:metaData];
             }  
-        } /*else {
+        } else {
             NSLog(@"tagReaderSession processNDEFTag");
-            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
-        }*/
+            [self processNDEFTag:session tag:ndefTag metaData:metaData];
+        }
     }];
 }
 
