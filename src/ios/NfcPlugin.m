@@ -456,7 +456,7 @@
      NSLog(@"processTag");       
 
      id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;                
-    [tag queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError * _Nullable error) {
+    [ndefTag queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError * _Nullable error) {
         NSLog(@"processNDEFTag queryNDEFStatusWithCompletionHandler");
         if (error) {
             NSLog(@"%@", error);
@@ -481,9 +481,7 @@
 
                 NSLog(@"processTag readNonNDEFTag");
                 [self readNonNDEFTag:session tag:tag metaData:metaData];
-            }
-            
-            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
+            }  
         } else {
             NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
