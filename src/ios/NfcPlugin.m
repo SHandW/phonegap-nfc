@@ -598,7 +598,7 @@
         uint8_t instructionCode = 0xB0;
         uint8_t p1 = 0;
         uint8_t p2 = 0;
-        uint8_t expectedResponseLength:16;
+        uint8_t expectedResponseLength = 16;
 
         NSMutableData *param = [[NSMutableData alloc] initWithCapacity: 5];
 
