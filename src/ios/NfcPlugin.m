@@ -608,6 +608,8 @@
         [param appendBytes:&p2 length:1];
         [param appendBytes:&expectedResponseLength length:1];
 
+        NSLog(@"%@", param);
+
         NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
     
         [iso7816Tag sendCommandAPDU:apdu
