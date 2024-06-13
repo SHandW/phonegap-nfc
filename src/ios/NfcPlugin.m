@@ -185,7 +185,7 @@
         }
 
         if (reusingSession) {                   // reusing a read session
-            [self executeCommand:self.nfcSession status:connectedTagStatus];
+            [self executeCommand:self.nfcSession];
         } else {
             [self.nfcSession beginSession];
         }
@@ -352,11 +352,11 @@
                 self->connectedTagBase = tag;
             }
 
-            //NSLog(@"tagReaderSession processNDEFTag");
-            //[self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
+            NSLog(@"tagReaderSession processNDEFTag");
+            [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
 
-            NSLog(@"tagReaderSession processTag");
-            [self processTag:session tag:tag metaData:tagMetaData];
+            //NSLog(@"tagReaderSession processTag");
+            //[self processTag:session tag:tag metaData:tagMetaData];
         }];
 
         NSLog(@"tagReaderSession return");
@@ -437,7 +437,7 @@
             [self writeNDEFTag:session status:status tag:tag];
         } else if (self.commandMode) {
             NSLog(@"processNDEFTag commandMode");
-            [self executeCommand:session status:status];
+            [self executeCommand:session];
         } else {
             // save tag & status so we can re-use in write
             if (self.keepSessionOpen) {
@@ -471,7 +471,7 @@
                 //[self writeNDEFTag:session status:status tag:tag];
             } else if (self.commandMode) {
                 NSLog(@"processTag commandMode");
-                [self executeCommand:session status:status];
+                [self executeCommand:session];
             } else {
                 // save tag & status so we can re-use in write
                 if (self.keepSessionOpen) {
@@ -555,43 +555,35 @@
     }
 }
 
-- (void)executeCommand:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status API_AVAILABLE(ios(13.0)){
-    switch (status) {
-        case NFCNDEFStatusNotSupported:
-            [self closeSession:session withError:@"Tag does not support NDEF."];  // alternate message "Tag does not support NDEF."
-            break;
-        case NFCNDEFStatusReadOnly:
-            [self closeSession:session withError:@"Tag is read only."];
-            break;
-        case NFCNDEFStatusReadWrite: {            
-            if (connectedTagBase.type == NFCTagTypeISO15693) {
-                id<NFCISO15693Tag> iso15693Tag = [connectedTagBase asNFCISO15693Tag];
-                RequestFlag flags = @(RequestFlagHighDataRate);
-                NSInteger customCommandCode = 0xAA;
+- (void)executeCommand:(NFCReaderSession * _Nonnull)session API_AVAILABLE(ios(13.0)){            
+    if (connectedTagBase.type == NFCTagTypeISO15693) {
+        id<NFCISO15693Tag> iso15693Tag = [connectedTagBase asNFCISO15693Tag];
+        RequestFlag flags = @(RequestFlagHighDataRate);
+        NSInteger customCommandCode = 0xAA;
 
-                [self customCommandISO15:session flags:flags tag:iso15693Tag code:customCommandCode param:self.commandAPDU];
-            } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
-                id<NFCISO7816Tag> iso7816Tag = [connectedTagBase asNFCISO7816Tag];
-                [self sendCommandAPDUISO78:session tag:iso7816Tag param:self.commandAPDU];
-            }   
-            break;            
-        }
-        default:
-            [self closeSession:session withError:@"Unexpected error! Please try again."];
-    }  
-}
+        [self customCommandISO15:session flags:flags tag:iso15693Tag code:customCommandCode param:self.commandAPDU];
+    } else if (connectedTagBase.type == NFCTagTypeISO7816Compatible) {
+        id<NFCISO7816Tag> iso7816Tag = [connectedTagBase asNFCISO7816Tag];
+        [self sendCommandAPDUISO78:session tag:iso7816Tag param:self.commandAPDU];
+    }               
+}  
 
 - (void)readNonNDEFTag:(NFCReaderSession * _Nonnull)session tag:(id<NFCTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)){
     NSLog(@"readNonNDEFTag");    
 
-    if (tag.type == NFCTagTypeISO7816Compatible) {
+    //NFCNDEFMessage *message = [[NFCNDEFMessage alloc] initWithNDEFRecords:payloads];
+
+    [self fireNdefEvent:nil metaData:metaData];
+    [self closeSession:session];
+
+    /*if (tag.type == NFCTagTypeISO7816Compatible) {
         id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
         
-        /*NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0
+        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0
                                                     instructionCode: 0xB0
                                                     p1Parameter:0
                                                     p2Parameter:0
-                                                    expectedResponseLength:16];*/
+                                                    expectedResponseLength:16];
         
         
         uint8_t instructionClass = 0;
@@ -630,7 +622,7 @@
                         NSLog(@"%@", data);
                     }
         }];
-    }
+    }*/
 }
 
 #pragma mark - ISO 15693 Tag functions
