@@ -354,9 +354,6 @@
 
             NSLog(@"tagReaderSession processNDEFTag");
             [self processNDEFTag:session tag:ndefTag metaData:tagMetaData];
-
-            //NSLog(@"tagReaderSession processTag");
-            //[self processTag:session tag:tag metaData:tagMetaData];
         }];
 
         NSLog(@"tagReaderSession return");
@@ -452,43 +449,6 @@
     }];
 }
 
-- (void)processTag: (NFCReaderSession *)session tag:(__kindof id<NFCTag>)tag metaData: (NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)) {
-     NSLog(@"processTag");       
-
-     id<NFCNDEFTag> ndefTag = (id<NFCNDEFTag>)tag;                
-    [ndefTag queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError * _Nullable error) {
-        NSLog(@"processNDEFTag queryNDEFStatusWithCompletionHandler");
-        if (error) {
-            NSLog(@"%@", error);
-            [self closeSession:session withError:@"Lesefehler; versuche es erneut."];
-            return;
-        }
-
-        if (status == NFCNDEFStatusNotSupported) {
-            NSLog(@"Tag does not support NDEF");
-
-            if (self.writeMode) {
-                //[self writeNDEFTag:session status:status tag:tag];
-            } else if (self.commandMode) {
-                NSLog(@"processTag commandMode");
-                [self executeCommand:session];
-            } else {
-                // save tag & status so we can re-use in write
-                if (self.keepSessionOpen) {
-                    self->connectedTagStatus = status;
-                    self->connectedTag = tag;
-                }
-
-                NSLog(@"processTag readNonNDEFTag");
-                [self readNonNDEFTag:session tag:tag metaData:metaData];
-            }  
-        } else {
-            NSLog(@"tagReaderSession processNDEFTag");
-            [self processNDEFTag:session tag:ndefTag metaData:metaData];
-        }
-    }];
-}
-
 - (void)readNDEFTag:(NFCReaderSession * _Nonnull)session status:(NFCNDEFStatus)status tag:(id<NFCNDEFTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData  API_AVAILABLE(ios(13.0)){
     NSLog(@"readNDEFTag");    
     if (status == NFCNDEFStatusNotSupported) {
@@ -567,63 +527,6 @@
         [self sendCommandAPDUISO78:session tag:iso7816Tag param:self.commandAPDU];
     }               
 }  
-
-- (void)readNonNDEFTag:(NFCReaderSession * _Nonnull)session tag:(id<NFCTag>)tag metaData:(NSMutableDictionary * _Nonnull)metaData API_AVAILABLE(ios(13.0)){
-    NSLog(@"readNonNDEFTag");    
-
-    //NFCNDEFMessage *message = [[NFCNDEFMessage alloc] initWithNDEFRecords:payloads];
-
-    [self fireNdefEvent:nil metaData:metaData];
-    [self closeSession:session];
-
-    /*if (tag.type == NFCTagTypeISO7816Compatible) {
-        id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
-        
-        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0
-                                                    instructionCode: 0xB0
-                                                    p1Parameter:0
-                                                    p2Parameter:0
-                                                    expectedResponseLength:16];
-        
-        
-        uint8_t instructionClass = 0;
-        uint8_t instructionCode = 0xB0;
-        uint8_t p1 = 0;
-        uint8_t p2 = 0;
-        uint8_t expectedResponseLength = 0;
-
-        NSMutableData *param = [[NSMutableData alloc] initWithCapacity: 5];
-
-        [param appendBytes:&instructionClass length:1];
-        [param appendBytes:&instructionCode length:1];
-        [param appendBytes:&p1 length:1];
-        [param appendBytes:&p2 length:1];
-        [param appendBytes:&expectedResponseLength length:1];
-
-        NSLog(@"%@", param);
-
-        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
-    
-        [iso7816Tag sendCommandAPDU:apdu
-                completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
-                    if (error) {
-                        NSLog(@"%@", error);
-                        [self closeSession:session withError:@"Send read command apdu failed."];
-                    } else {
-                        NSMutableData *data = [[NSMutableData alloc] initWithCapacity: (resp.length + 2)];
-
-                        if (resp.length > 0) {
-                            [data appendBytes:[resp bytes] length:resp.length];
-                        }
-                        
-                        [data appendBytes:&sw1 length:1];
-                        [data appendBytes:&sw2 length:1];
-
-                        NSLog(@"%@", data);
-                    }
-        }];
-    }*/
-}
 
 #pragma mark - ISO 15693 Tag functions
 - (void)customCommandISO15:(NFCReaderSession * _Nonnull)session 
