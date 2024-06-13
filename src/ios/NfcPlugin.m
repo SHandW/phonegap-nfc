@@ -587,12 +587,28 @@
     if (tag.type == NFCTagTypeISO7816Compatible) {
         id<NFCISO7816Tag> iso7816Tag = [tag asNFCISO7816Tag];
         
-        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0
+        /*NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithInstructionClass:0
                                                     instructionCode: 0xB0
                                                     p1Parameter:0
                                                     p2Parameter:0
-                                                    data:NULL 
-                                                    expectedResponseLength:16];
+                                                    expectedResponseLength:16];*/
+        
+        
+        uint8_t instructionClass = 0;
+        uint8_t instructionCode = 0xB0;
+        uint8_t p1 = 0;
+        uint8_t p2 = 0;
+        uint8_t expectedResponseLength:16;
+
+        NSMutableData *param = [[NSMutableData alloc] initWithCapacity: 5];
+
+        [param appendBytes:&instructionClass length:1];
+        [param appendBytes:&instructionCode length:1];
+        [param appendBytes:&p1 length:1];
+        [param appendBytes:&p2 length:1];
+        [param appendBytes:&expectedResponseLength length:1];
+
+        NFCISO7816APDU *apdu = [[NFCISO7816APDU alloc] initWithData:param];
     
         [iso7816Tag sendCommandAPDU:apdu
                 completionHandler:^(NSData * _Nullable resp, uint8_t sw1, uint8_t sw2, NSError * _Nullable error) {
